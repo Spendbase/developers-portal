@@ -1,2 +1,2 @@
 * [Home](/)
-* [Openbanking](OPENBANKING.md)
+* [Openbanking](Openbanking.md)

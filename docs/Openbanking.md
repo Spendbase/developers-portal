@@ -1,24 +1,5 @@
 # Spendbase Open Banking Integration Guide
 
-## Document Control
-
-| Field | Value |
-|-------|-------|
-| Document Name | Spendbase Open Banking Integration Guide |
-| Version Number | 1.0 |
-| Date | 30-10-2024 |
-| Responsible Executive | CTO |
-| Document Owner | CTO |
-| Approval Committee | Product and Engineering Forum |
-
-### Document Circulation, Review and Sign-Off
-
-This Policy will be subject to review and re-approval by the appropriate committee at least annually (every 12 months).
-
-| Name | Role/Function | Review | Sign-off |
-|------|--------------|--------|----------|
-| Dmytro Bieliaiev | CTO | X | X |
-
 ### Document Version Control
 
 | Version | Date | Summary Change |
@@ -54,7 +35,7 @@ As part of the integration flow, TPPs will first call the consent application AP
 This documentation will guide TPPs in making the appropriate API calls to the consent application, ensuring secure and compliant integration with Spendbase Bank's Open Banking infrastructure.
 
 ## 5. TPP Authorization Guide
-
+![/images/1.png](/images/1.png)
 The workflow of the authorization:
 
 Preconditions: TPP should register client application in the consent application.
@@ -75,7 +56,7 @@ Preconditions: TPP should register client application in the consent application
 8. The consent application responds with authorization tokens and other information.
 
 ## 6. TPP Get Data Guide
-
+![/images/2.png](/images/2.png)
 The workflow of the get info:
 
 1. TPP sends the request with the required object to the consent application.
@@ -97,10 +78,13 @@ These guides help users to set up open banking connections between TPP and Spend
 
 1. To add a Spendbase Bank account to the TPP application/website, the user must first select Spendbase Bank and specify the consents they wish to grant access to within the TPP application/website.
 2. The TPP application/website will navigate you to the Spendbase Open Banking Login screen with the consent information.
+![/images/3.png](/images/3.png)
 3. Enter your credentials and click "Login".
 4. Once the system navigates the user to the "Two-Factor Authentication" screen.
 5. Enter the 2FA code and click "Verify".
+![/images/4.png](/images/4.png)
 6. After successful verification, you will be directed to the "Account Selection" screen. Select the account that you want to grant access to and click "Confirm".
+![/images/5.png](/images/5.png)
 7. After successful authorization in Spendbase Bank, the user will be redirected to the TPP application/website via a callback URL with an "authorization_code," which the TPP can exchange for an access token and use it for the Get Data Flow (described in Section 5).
 
 ### Consent Management Guide
@@ -109,8 +93,10 @@ These guides help users to set up open banking connections between TPP and Spend
 
 2. Revoking User Consent
    - From Spendbase Bank website
+     ![/images/6.png](/images/6.png)
      * To revoke consent, the user must go to the Open Banking Consent Management Screen, choose the active Open Banking connection, and click on it.
      * Then click the "Disable Connection" button.
+     ![/images/7.png](/images/7.png)
      * After these actions, the Open Banking connection will be revoked.
    - From TPP application/website
      * Each TPP may have a unique method for handling user consent revocation. This could range from in-app settings to customer support channels.

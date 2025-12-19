@@ -61,6 +61,8 @@ Another way is using curl with params for API requests:
 
 BASE_URL=https://cards-integration-api.dev.spendbase.co (dev)
 
+[Swagger](https://api.dev.spendbase.co/cards-adapter/v1/public/swagger/index.html#/)
+
 ## 1. Accounts
 
 ### Get a list of all accounts
@@ -75,6 +77,15 @@ GET /accounts/accounts/:currency
 
 The response includes sub-accounts and the master-account in the requested currency. Account’s data should contain ID, name, balance info, etc.
 
+### Get a list of bank accounts
+
+GET /accounts/bank-accounts
+
+    curl --cert client.crt --key client.key \
+    -H "External-Token: $EXTERNAL_TOKEN" $BASE_URL/cards-adapter/v1/public/accounts/bank-accounts
+
+The response includes bank accounts list for specific currencies with ledger IDs and balances.
+
 ### Create account
 
 POST accounts/account
@@ -82,15 +93,27 @@ POST accounts/account
 Body:
 
 - accountName: name of the new account (string)
-- currencyISONum (978 for EUR): currency special numeric code (string)
+- LedgerBankAccountID: account bank ID could be pulled from the bank accounts list (string)
 
 
     curl --cert client.crt --key client.key -X POST \
     -H "External-Token: $EXTERNAL_TOKEN" \
     -H "Content-Type: application/json" \
-    -d '{"accountName": "ExampleName","currencyISONum": "978"}' $BASE_URL/cards-adapter/v1/public/accounts/account
+    -d '{"accountName": "ExampleName","LedgerBankAccountID": "ExampleLedgerBankAccountID"}' $BASE_URL/cards-adapter/v1/public/accounts/account
 
 Responds with the new account name and ID if creation succeeded.
+
+### Get a list of ledger accounts
+
+GET /accounts/ledger-accounts/:ledgerId
+
+Ledger bank account ID from list of bank accounts as ledgerId path param.
+
+    curl --cert client.crt --key client.key \
+     -H "External-Token: $EXTERNAL_TOKEN" \
+    $BASE_URL/cards-adapter/v1/public/accounts/ledger-accounts/$ledgerId
+
+Responds with the list of master, sub accounts with ledgerIDs as id.
 
 ### Transfer money between accounts
 
@@ -102,7 +125,7 @@ Body:
 - accountId: transfer to ledger id (string)
 - sourceAccountId: transfer from ledger id (string) 
 - currencyISONum: currency special numeric code (string)
-- Ledger IDs could be received from accounts or card info routes (get all accounts, get all cards).
+Ledger IDs could be received from ledger accounts route.
 
 
     curl --cert client.crt --key client.key -X POST \
@@ -223,6 +246,23 @@ Query params:
     -H "External-Token: $EXTERNAL_TOKEN" $BASE_URL/cards-adapter/v1/public/transactions/card-transactions?to=1754042551&from=1753864397&accountName=TEST account
 
 Returns card transactions list with tx IDs, card IDs, names, amounts, etc.
+
+### Get transactions by account
+
+GET /transactions/transactions/:accountId
+
+Path param:
+
+- accountId: ledger id of account to show transactions list
+
+Query params:
+- from: start timestamp (unix int)
+- to: end timestamp (unix int)
+
+    curl --cert client.crt --key client.key \
+    -H "External-Token: $EXTERNAL_TOKEN" $BASE_URL/cards-adapter/v1/public/transactions/transactions/$ledgerId?to=1754042551&from=1753864397
+
+Returns transactions list with by account id.
 
 ### Get tx details by id
 
